@@ -1,7 +1,8 @@
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import './App.css';
 import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST } from './consts';
 import { AttributeControl } from './AttributeControl';
+import { ClassRow } from './ClassRow';
 
 const initialAttributeState = ATTRIBUTE_LIST.map((attribute) => {
   return {
@@ -45,7 +46,11 @@ const attributeReducer = (state, action) => {
 
 function App() {
   const [num, setNum] = useState(0);
+  const [validClasses, setValidClasses] = useState([]);
   const [attributes, dispatch] = useReducer(attributeReducer, initialAttributeState);
+  useEffect(() => {
+    validateCharClasses();
+  }, [attributes])
 
   const handleIncrement = (attribute) => {
     dispatch({
@@ -59,6 +64,20 @@ function App() {
       type: "DECREMENT",
       attribute,
     })
+  }
+
+  const validateCharClasses = () => {
+    const validClasses = Object.keys(CLASS_LIST).map((charClass) => {
+      const validations = attributes.map((attribute) => {
+        return attribute.value >= CLASS_LIST[charClass][attribute.name]
+      });
+
+      if (validations.every((v) => v === true)) {
+        return charClass;
+      }
+    });
+
+     setValidClasses(validClasses);
   }
 
   return (
@@ -80,10 +99,12 @@ function App() {
           })
         }
         <div>
-          Value:
-          {num}
-          <button onClick={() => handleIncrement('Strength')}>+</button>
-          <button onClick={() => handleDecrement('Strength')}>-</button>
+          <h3>Classes</h3>
+        {
+          Object.keys(CLASS_LIST).map((charClass) => (
+            <ClassRow charClass={charClass} fulfilled={validClasses.includes(charClass)} />
+          ))
+        }
         </div>
       </section>
     </div>
