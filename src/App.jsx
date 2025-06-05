@@ -45,8 +45,9 @@ const attributeReducer = (state, action) => {
 
 
 function App() {
-  const [num, setNum] = useState(0);
   const [validClasses, setValidClasses] = useState([]);
+  const [selectedClass, setSelectedClass] = useState(null);
+
   const [attributes, dispatch] = useReducer(attributeReducer, initialAttributeState);
   useEffect(() => {
     validateCharClasses();
@@ -80,6 +81,14 @@ function App() {
      setValidClasses(validClasses);
   }
 
+  const handleSetSelectedClass = (selection) => {
+    if (selectedClass === selection) {
+      setSelectedClass(null);
+    } else {
+      setSelectedClass(selection);
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -100,12 +109,25 @@ function App() {
         }
         <div>
           <h3>Classes</h3>
-        {
-          Object.keys(CLASS_LIST).map((charClass) => (
-            <ClassRow charClass={charClass} fulfilled={validClasses.includes(charClass)} />
-          ))
-        }
+          {
+            Object.keys(CLASS_LIST).map((charClass) => (
+              <ClassRow
+                key={charClass}
+                charClass={charClass}
+                fulfilled={validClasses.includes(charClass)} 
+                setSelectedClass={handleSetSelectedClass}
+              />
+            ))
+          }
         </div>
+        {selectedClass && (<div>
+          <h3>{selectedClass} Requirements</h3>
+          <ul>
+            {Object.keys(CLASS_LIST[selectedClass]).map((item) => {
+              return <li>{item}: {CLASS_LIST[selectedClass][item]}</li>
+            })}
+          </ul>
+        </div>)}
       </section>
     </div>
   );

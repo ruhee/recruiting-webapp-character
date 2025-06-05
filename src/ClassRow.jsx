@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const ClassRow = ({ charClass, fulfilled }) => (
+export const ClassRow = ({ charClass, fulfilled, setSelectedClass }) => (
     <div>
-        <span className={fulfilled ? "fulfilled" : null}>{charClass}</span>
+        <span onClick={() => setSelectedClass(charClass)} className={fulfilled ? "fulfilled" : null}>{charClass}</span>
     </div>
 )
