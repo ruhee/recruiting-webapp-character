@@ -43,7 +43,6 @@ const attributeReducer = (state, action) => {
 }
 
 
-
 function App() {
   const [validClasses, setValidClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
@@ -89,6 +88,10 @@ function App() {
     }
   }
 
+  const calculateModifier = (value) => {
+    return Math.floor((value - 10)/2)
+  }
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -101,6 +104,7 @@ function App() {
               <AttributeControl
                 key={attribute.name}
                 attribute={attribute}
+                calculateModifier={calculateModifier}
                 handleIncrement={() => handleIncrement(attribute.name)}
                 handleDecrement={() => handleDecrement(attribute.name)} 
               />
