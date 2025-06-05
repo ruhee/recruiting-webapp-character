@@ -47,24 +47,24 @@ const attributeReducer = (state, action) => {
 function App() {
   const [validClasses, setValidClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
-
   const [attributes, dispatch] = useReducer(attributeReducer, initialAttributeState);
+  
   useEffect(() => {
     validateCharClasses();
-  }, [attributes])
+  }, [attributes]);
 
   const handleIncrement = (attribute) => {
     dispatch({
       type: "INCREMENT",
       attribute,
-    })
+    });
   }
 
   const handleDecrement = (attribute) => {
     dispatch({
       type: "DECREMENT",
       attribute,
-    })
+    });
   }
 
   const validateCharClasses = () => {
@@ -90,7 +90,7 @@ function App() {
   }
 
   const calculateModifier = (value) => {
-    return Math.floor((value - 10)/2)
+    return Math.floor((value - 10)/2);
   }
   
   return (
@@ -128,9 +128,10 @@ function App() {
         {selectedClass && (<div>
           <h3>{selectedClass} Requirements</h3>
           <ul>
-            {Object.keys(CLASS_LIST[selectedClass]).map((item) => {
-              return <li>{item}: {CLASS_LIST[selectedClass][item]}</li>
-            })}
+            {Object.keys(CLASS_LIST[selectedClass]).map((item) => (
+              <li>{item}: {CLASS_LIST[selectedClass][item]}</li>
+            )
+            )}
           </ul>
         </div>)}
         <SkillsList />
