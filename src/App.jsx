@@ -92,7 +92,14 @@ function App() {
   const calculateModifier = (value) => {
     return Math.floor((value - 10)/2);
   }
-  
+
+  const calculateSkillPoints = () => {
+    const intelligenceValue = attributes.filter((attr) => attr.name === 'Intelligence')[0].value
+    const intelligenceModifier = calculateModifier(intelligenceValue);
+
+    return Math.max((10 + (4 * intelligenceModifier)), 0);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -134,7 +141,7 @@ function App() {
             )}
           </ul>
         </div>)}
-        <SkillsList />
+        <SkillsList points={calculateSkillPoints()}/>
       </section>
     </div>
   );
