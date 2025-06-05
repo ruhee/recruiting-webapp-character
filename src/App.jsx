@@ -3,6 +3,7 @@ import './App.css';
 import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST } from './consts';
 import { AttributeControl } from './AttributeControl';
 import { ClassRow } from './ClassRow';
+import { SkillsList } from './SkillsList';
 
 const initialAttributeState = ATTRIBUTE_LIST.map((attribute) => {
   return {
@@ -132,6 +133,7 @@ function App() {
             })}
           </ul>
         </div>)}
+        <SkillsList />
       </section>
     </div>
   );
